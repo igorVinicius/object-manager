@@ -25,6 +25,8 @@
 *        4. To create object, use $myVar = MyClass::new('myVarName');
 *           Where 'myVarName' is 'myVar' string on '$myVar'
 *
+*        5. To kill object, use 'myClass::kill($myObject)'
+*
 *
 *
 * @author  Igor Vinicius Reynaldo Tibúrcio @ LCQAr - UFSC <igorvinicius.rt@gmail.com>
@@ -163,6 +165,21 @@ abstract class ObjectManager
             throw new Exception('Session Timeout');
         }
         $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+    }
+    
+    /**
+    * Kill object
+    */
+    public static function kill( &$obj ){
+        $objName = $obj->objName;
+        $className = get_class($obj);
+
+        if(isset($_SESSION[$className][$objName])){
+            unset($obj);
+            unset($_SESSION[$className][$objName]);
+        } else {
+            throw new Exception('The object is not stored!');
+        }
     }
 }
 
