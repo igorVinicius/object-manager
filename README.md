@@ -33,3 +33,9 @@ public function __destruct()
 $myVar = MyClass::new('myVarName');
 ```
 Where 'myVarName' is 'myVar' string on '$myVar'
+
+5. To kill object, use 
+
+```
+myClass::kill($myObject)
+```
