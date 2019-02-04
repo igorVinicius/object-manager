@@ -1,15 +1,15 @@
 # object-manager
 ## PHP project to improve OOP (Object-Oriented Programming).
 
-##Description
+## Description
 This class help us to use real OOP on PHP. It stores objects within the session and maintains the state in memory.
 
-##IMPORTANT
+## IMPORTANT
 If other objects is attributes of the object that you're extending with ObjectManager class, they automatically will be save too.
 
-##IMPORTANT 2 Objects that use File Handlers won't must be saved, so take care!
+## IMPORTANT 2 Objects that use File Handlers won't must be saved, so take care!
 
-##Usage
+## Usage
 
 1. Extends this class inside the class that you want to persist.
 2. Use that constructor structure:
