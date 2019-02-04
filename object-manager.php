@@ -35,7 +35,12 @@
 
 namespace GAr;
 
-require_once 'config.php';
+$config = array(
+    $key => 'my_key_string',
+    $preventSessionFixationTime => 1800,
+    $timeout => 3600
+);
+
 
 abstract class ObjectManager
 {
@@ -89,7 +94,7 @@ abstract class ObjectManager
     */
     private static function startSession()
     {
-        $key = $GLOBALS['SEC_OPTIONS']['SESSION_KEY'];
+        $key = $GLOBALS['config']['key'];
 
         if(isset($_SERVER['HTTP_USER_AGENT'])){
             session_name(md5($key.$_SERVER['REMOTE_ADDR'].strrev($key).
@@ -145,7 +150,7 @@ abstract class ObjectManager
     */
     private function preventSessionFixation(){
 
-        $time = $GLOBALS['SEC_OPTIONS']['TIME_UPDATE_SESSION_ID'];
+        $time = $GLOBALS['config']['preventSessionFixationTime'];
 
         if (!isset($_SESSION['CREATED'])) {
             $_SESSION['CREATED'] = time();
@@ -162,7 +167,7 @@ abstract class ObjectManager
     */
     private function checkTimeout(){
         //in seconds
-        $time = $GLOBALS['SEC_OPTIONS']['TIMEOUT'];
+        $time = $GLOBALS['config']['timeout'];
 
         if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time)) {
             throw new Exception('Session Timeout');
