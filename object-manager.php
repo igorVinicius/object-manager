@@ -135,16 +135,6 @@ abstract class ObjectManager
     }
 
     /**
-    * Reset object state
-    */
-    public function removeSavedState()
-    {
-        $objName = $this->objName;
-        $className = get_class($this);
-        isset($_SESSION[$className][$objName]);
-    }
-
-    /**
     * Prevent session fixation attacks
     *
     */
