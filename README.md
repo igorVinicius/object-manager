@@ -7,7 +7,7 @@ This class help us to use real OOP on PHP. It stores objects within the session 
 ## IMPORTANT
 If other objects is attributes of the object that you're extending with ObjectManager class, they automatically will be save too.
 
-## IMPORTANT 2 Objects that use File Handlers won't must be saved, so take care!
+Other thing: Objects that use File Handlers won't must be saved, so take care!
 
 ## Usage
 
