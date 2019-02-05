@@ -51,6 +51,12 @@ abstract class ObjectManager
     * @var string
     */
     private $objName;
+    
+     /**
+    * Store to kill object
+    * @var boolean
+    */
+    private $killMe;
 
     /**
     * Class constructor
@@ -61,6 +67,7 @@ abstract class ObjectManager
     {
         $this->objName = $objName;
         $this->preventSessionFixation();
+        $this->killMe = false;
         try{
             $this->checkTimeout();
         } catch (\Exception $e){
@@ -73,7 +80,9 @@ abstract class ObjectManager
     */
     public function __destruct()
     {
-        $this->saveState();
+        if( !$this->killMe ){
+            $this->saveState();
+        }
     }
 
     /**
@@ -169,16 +178,15 @@ abstract class ObjectManager
     
     /**
     * Kill object
+    * @static
     */
     public static function kill( &$obj ){
         $objName = $obj->objName;
         $className = get_class($obj);
+        $obj->killMe = true;
 
         if(isset($_SESSION[$className][$objName])){
-            unset($obj);
             unset($_SESSION[$className][$objName]);
-        } else {
-            throw new Exception('The object is not stored!');
         }
     }
 }
