@@ -11,7 +11,7 @@
 *
 * Usage: 1. Extends this class inside the class that you want to persist.
 *        2. Use that constructor structure:
-*               public function __construct($objName)
+*               public function __construct($params,$objName)
 *               {
 *                   // Your code here
 *                   parent::__construct($objName);
@@ -85,14 +85,15 @@ abstract class ObjectManager
     * Static class to instanciate last state (if exists) of object
     * @static
     *
+    * @param array $params Array of parameters
     * @param string $objName
     */
-    public static function new($objName)
+    public static function new( $params = NULL, $objName )
     {
         $className = get_called_class();
         self::startSession();
-
-        return self::getLastState($objName,$className);
+        
+        return self::getLastState($objName,$className,$params);
     }
 
     /**
@@ -116,16 +117,26 @@ abstract class ObjectManager
     /**
     * Find last object state from last session and restore
     * @static
+    * @thrwos \Exception if $params is not array
     *
     * @param string $objName   Name of new object
     * @param string $className Class name of object
     */
-    private static function getLastState($objName, $className)
+    private static function getLastState($objName, $className, $params)
     {
         if(isset($_SESSION[$className][$objName])){
             $obj = unserialize($_SESSION[$className][$objName]);
         } else {
-            $obj = new $className($objName);
+            if( is_null($params) ){
+                $obj = new $className($objName);
+            } else {
+                if( is_array($params) ){
+                    $obj = new $className($params,$objName);
+                } else {
+                    throw new \Exception('Parameters must be array.');
+                }
+            }
+            
         }
 
         return $obj;
