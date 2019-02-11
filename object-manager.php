@@ -14,6 +14,9 @@
 *               public function __construct($params,$objName)
 *               {
 *                   // Your code here
+*                   foreach( $params as $name => $value ){
+*                       $this->$name = $value;
+*                   }
 *                   parent::__construct($objName);
 *               }
 *        3. Use that destructor structure:
