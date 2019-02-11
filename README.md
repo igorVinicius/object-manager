@@ -49,6 +49,8 @@ myClass::kill($myObject)
 This is an simple example to understand the usage of Object Manager.
 
 ```
+<?php
+
 //import Object Manager
 require_once('object_manager.php');
 
@@ -180,5 +182,7 @@ class Toy
         return $this->amountOfHappiness;
     }
 }
+
+?>
     
 ```
