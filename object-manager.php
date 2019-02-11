@@ -41,9 +41,9 @@
 namespace GAr;
 
 $config = array(
-    $key => 'my_key_string',
-    $preventSessionFixationTime => 1800,
-    $timeout => 3600
+    'key' => 'my_key_string',
+    'preventSessionFixationTime' => 1800,
+    'timeout' => 3600
 );
 
 
