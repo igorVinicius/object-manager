@@ -68,11 +68,7 @@ abstract class ObjectManager
         $this->objName = $objName;
         $this->preventSessionFixation();
         $this->killMe = false;
-        try{
-            $this->checkTimeout();
-        } catch (\Exception $e){
-            throw new \Exception( $e->getMessate() );
-        }
+        $this->checkTimeout();
     }
 
     /**
@@ -164,6 +160,8 @@ abstract class ObjectManager
 
     /**
     * Check session timeout
+    *
+    * @throws \Exception if session is timed out
     *
     */
     private function checkTimeout(){
