@@ -14,12 +14,17 @@ Other thing: Objects that use File Handlers won't must be saved, so take care!
 1. Extends this class inside the class that you want to persist.
 2. Use that constructor structure:
 ```
-public function __construct($objName)
+public function __construct($params, $objName)
 {
     // Your code here
+    
+    foreach( $params as $name => $value ){
+        $this->$name = $value;
+    }
     parent::__construct($objName);
 }
 ```
+
 3. Use that destructor structure:
 ```
 public function __destruct()
@@ -49,8 +54,10 @@ require_once('object_manager.php');
 
 function index(){
 
+    //Kid Parameters
     $params = array(
-        'Andy', ''
+        'name'      : 'Andy',
+        'happiness' : 5
     );
 
     //Create kid    
