@@ -32,7 +32,7 @@
 * @author  Igor Vinicius Reynaldo Tibúrcio @ LCQAr - UFSC <igorvinicius.rt@gmail.com>
 * @since   July 01, 2018
 * @link
-* @version 1.0
+* @version 1.2
 */
 
 namespace GAr;
