@@ -46,7 +46,9 @@ myClass::kill($myObject)
 ```
 ## Example
 
-This is an simple example to understand the usage of Object Manager.
+This is an simple example to understand the usage of Object Manager. For each refresh, Andy will play with Buzz and Andy and it will increase his happiness.
+
+I know it seems too simple, but for complex projects this code is is usefull.
 
 ```
 <?php
@@ -54,33 +56,38 @@ This is an simple example to understand the usage of Object Manager.
 //import Object Manager
 require_once('object_manager.php');
 
+index();
+
 function index(){
 
-    //Kid Parameters
-    $params = array(
-        'name'      : 'Andy',
-        'happiness' : 5
-    );
-
-    //Create kid    
-    $andy = Kid::new( $params,'cuteKid' );
-    
     //Create toys
     $woody = new Toy( 'Woody', '2' );
     $buzz = new Toy( 'Buzz Lightyear', '2' );
-    
-    //Add Andy toys
-    $andy->addToy( $woody );
-    $andy->addToy( $buzz );
-    
+
+    //Kid Parameters
+    $params = array(
+        'name'      => 'Andy',
+        'happiness' => 5,
+        'toys'      => array(
+            $woody, $buzz
+        )
+    );
+
+    //Create kid
+    $andy = Kid::new( $params,'cuteKid' );
+
     //Show happiness before play
-    echo 'Before Play: ' . $andy->getHappiness();
-    
+    echo '<p>Before Play: ' . $andy->getHappiness() . '</p>';
+
     $andy->play();
-    
+
     //Show happiness after play
-    echo 'After play: ' . $andy->getHappiness();
-    
+    echo '<p>After play: ' . $andy->getHappiness() . '</p>';
+
+    if( $andy->getHappiness() >= 100 ){
+        Kid::kill( $andy );
+    }
+
     //Note 1: Happiness will increase after each
     //Note 2: Toys 'woody' and 'buzz' is attributes of Kid, so it means that the state will be saved automaticaly
 }
@@ -92,60 +99,57 @@ class Kid extends ObjectManager
 {
 
     /**
-    * @var string  
+    * @var string
     */
     private $name;
 
     /**
-    * @var array Object  
+    * @var array Object
     */
     private $toys;
-    
+
     /**
-    * @var int  
+    * @var int
     */
     private $happiness;
-    
+
     /**
     * Class constructor
     */
-    public function __construct( $name, $happiness, $objName )
+    public function __construct( $params, $objName )
     {
         $this->toys = array();
+
+        foreach ($params as $name => $value) {
+            $this->$name = $value;
+        }
         parent::__construct($objName);
     }
-    
+
     /**
     * Class destructor
-    */    
+    */
     public function __destruct()
     {
         parent::__destruct();
     }
-    
-    /**
-    * Add toys
-    */
-    public function addToy( $toy ){
-        array_push( $this->toys, $toy );
-    }
-    
+
     /**
     * Play with toy
     */
     public function play(){
         $toys = $this->toys;
-        
+
         foreach( $toys as $toy ){
-            $this->happiness += $toy->getHappiness;
+            $this->happiness += $toy->getHappiness();
         }
     }
-    
+
     /**
     * Show happiness
     */
     public function getHappiness(){
-        echo $this->happiness;
+        return $this->happiness;
     }
 }
 
@@ -153,18 +157,18 @@ class Kid extends ObjectManager
 * Class description
 */
 
-class Toy 
+class Toy
 {
     /**
-    * @var string  
+    * @var string
     */
     private $name;
-    
+
     /**
     * @var int
     */
     private $amountOfHappiness;
-    
+
     /**
     * Class constructor
     */
@@ -173,7 +177,7 @@ class Toy
         $this->name = $name;
         $this->amountOfHappiness = $amountOfHappiness;
     }
-    
+
     /**
     * Get happiness produced by toy
     * @return int
