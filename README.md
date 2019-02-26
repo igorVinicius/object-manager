@@ -42,7 +42,7 @@ Where 'myVarName' is 'myVar' string on '$myVar'
 5. To kill object, use 
 
 ```
-myClass::kill($myObject)
+myClass::kill($myObject);
 ```
 ## Example
 
